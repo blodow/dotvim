@@ -26,6 +26,9 @@ set modelines=0
 " we don't want true vi compatibility
 set nocompatible
 
+call pathogen#infect()
+call pathogen#helptags()
+
 " when TAB is pressed, insert the appropriate amount of spaces (which is 2!)
 set expandtab
 set shiftwidth=2
@@ -137,9 +140,6 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#z
-
-call pathogen#infect()
-call pathogen#helptags()
 
 "set t_Co=256  " sometimes helps on term's without correct $TERM set
 colorscheme evening
