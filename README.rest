@@ -1,9 +1,15 @@
-git clone git://github.com:blodow/dotvim.git ~/.vim
-ln -s ~/.vim/vimrc ~/.vimrc
+Installation
+============
 
-cd ~/.vim
-git submodule init
-git submodule update
+First, make sure to backup your ``~/.vim`` and ``~/.vimrc``.
+
+.. code:: 
+  git clone git://github.com/blodow/dotvim.git ~/.vim
+  ln -s ~/.vim/vimrc ~/.vimrc
+
+  cd ~/.vim
+  git submodule init
+  git submodule update
 
 inspiration for treating vim plugins as git submodules:
 http://vimcasts.org/episodes/synchronizing-plugins-with-git-submodules-and-pathogen/
