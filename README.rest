@@ -3,9 +3,12 @@ Installation
 
 First, make sure to backup your ``~/.vim`` and ``~/.vimrc``.
 
-.. code:: 
+Then, clone this repo and create the necessary symlinks::
+
   git clone git://github.com/blodow/dotvim.git ~/.vim
   ln -s ~/.vim/vimrc ~/.vimrc
+
+Update git submodules::
 
   cd ~/.vim
   git submodule init
