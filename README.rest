@@ -14,5 +14,16 @@ Update git submodules::
   git submodule init
   git submodule update
 
+
+To use a patched version of the Ubuntu font for powerline::
+
+cd ~/.fonts/ && git clone https://github.com/scotu/ubuntu-mono-powerline.git && cd ~
+
+and in order to get 256 colors in gnome-terminal etc., source the ``bashrc_vim.sh`` file::
+
+echo 'source ~/.vim/bashrc_vim.sh' >> ~/.bashrc
+
+
 inspiration for treating vim plugins as git submodules:
+
 http://vimcasts.org/episodes/synchronizing-plugins-with-git-submodules-and-pathogen/
