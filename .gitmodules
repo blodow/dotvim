@@ -10,3 +10,9 @@
 [submodule "bundle/color-lucius"]
 	path = bundle/color-lucius
 	url = git://github.com/vim-scripts/Lucius.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "bundle/tagbar"]
+	path = bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
