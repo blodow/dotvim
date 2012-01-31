@@ -14,17 +14,25 @@ set nocompatible
 call pathogen#infect()
 call pathogen#helptags()
 
+" enable all mouse modes
 set mouse=a
 
 " save state of vim in .viminfo file
-"   %:    save/restore buffer list (reload it when vim is invoked without params)
+"   %:    save/restore buffer list (reload it when vim is invoked w/o params)
 "   '50:  remember marks for 50 files
 "   \"50: (also <50) would limit register buffers to 50 lines (unset:unlimited)
 set viminfo=%,'50,n~/dotfiles/vim/viminfo
 " remember 50 lines of history
 set history=50
 " remember last edit pos
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+au BufReadPost * 
+   \ if line("'\"") > 0
+   \|   if line("'\"") <= line("$") 
+   \|     exe("norm '\"")
+   \|   else
+   \|     exe "norm $"
+   \|   endif
+   \| endif
 
 " do not make backup before overwriting a file
 set nobackup
@@ -36,7 +44,8 @@ set autowrite
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
 " suffixes that get lower priority when autocompleting filenames
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,
+            \.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 
 " enable file type detection
 filetype plugin indent on
@@ -67,11 +76,23 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"] " ????
 set completeopt-=preview
 
 " " TAGBAR  stuff "
-nmap <F6> :TagbarToggle<CR>
+nmap <F7> :TagbarToggle<CR>
+
+" " NERDTree stuff "
+map <F6> :NERDTreeToggle<CR>
+
+" " PYFLAKES stuff "
+let g:pyflakes_use_quickfix = 1
 
 " map space to toggle folding
 nnoremap <space> za
 vnoremap <space> zf
+
+" Shift-Arrow for easier window navigation
+nnoremap <S-Left> <C-W>h
+nnoremap <S-Right> <C-W>l
+nnoremap <S-Up> \<C-W>k
+nnoremap <S-Down> \<C-W>j
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " "                         INDENTATION OPTIONS                            " "
@@ -79,9 +100,9 @@ vnoremap <space> zf
 " when TAB is pressed, insert the appropriate amount of spaces (which is 2!)
 set expandtab
 set shiftwidth=2
-set tabstop=2 " TODO: this could stay at 8 for correct displaying of other code?
+set tabstop=2 " TODO: could this stay at 8?
 
-" make TAB and BS work on whole indentation levels (not affecting just single spaces/tabs)
+" make TAB and BS work on whole indentation levels (not single spaces/tabs)
 set smarttab " TODO: see cindent
 
 " enable "smart" and "automatic" indentation
@@ -167,44 +188,46 @@ let g:Powerline_symbols = 'fancy'
 set laststatus=2
 
 " tell indent guides plugin to compute indent colors, set default colors
-let g:indent_guides_auto_colors = 1
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_default_ctermbg_colors = [234, 235]
-
-" hack to register a function overriding indent_guides' behavior
-function! OverrideIndentGuidesFunction ()
-  function! indent_guides#basic_highlight_colors()
-    if exists('g:indent_guides_default_ctermbg_colors')
-      let l:cterm_colors = g:indent_guides_default_ctermbg_colors
-    else
-      let l:cterm_colors = (&g:background == 'dark') ? ['darkgrey', 'black'] : ['lightgrey', 'white']
-    endif
-    let l:gui_colors   = (&g:background == 'dark') ? ['grey15', 'grey30']  : ['grey70', 'grey85']
+if has('gui_running')
+  let g:indent_guides_auto_colors = 1
+  set guioptions-=T  " no toolbar
+  set guifont=Ubuntu\ Mono\ 12
+else
+  let g:indent_guides_auto_colors = 0
+endif
   
-    exe 'hi IndentGuidesEven guibg=' . l:gui_colors[0] . ' ctermbg=' . l:cterm_colors[0]
-    exe 'hi IndentGuidesOdd  guibg=' . l:gui_colors[1] . ' ctermbg=' . l:cterm_colors[1]
-  endfunction
-endfunction
+let g:indent_guides_enable_on_vim_startup = 1
 
-" register hook to override basic_highlight_colors after plugins are loaded
-autocmd VimEnter * :call OverrideIndentGuidesFunction()
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray7 ctermbg=233
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray11 ctermbg=234
+hi VertSplit cterm=bold ctermfg=22 ctermbg=148 gui=bold guifg=#005f00 guibg=#afd700
+hi ColorColumn term=reverse ctermbg=233 guibg=#484038
+
+" " let g:indent_guides_default_ctermbg_colors = [234, 235]
+" " 
+" " " hack to register a function overriding indent_guides' behavior
+" " function! OverrideIndentGuidesFunction ()
+" "   function! indent_guides#basic_highlight_colors()
+" "     if exists('g:indent_guides_default_ctermbg_colors')
+" "       let l:cterm_colors = g:indent_guides_default_ctermbg_colors
+" "     else
+" "       let l:cterm_colors = (&g:background == 'dark') ? ['darkgrey', 'black'] : ['lightgrey', 'white']
+" "     endif
+" "     let l:gui_colors   = (&g:background == 'dark') ? ['grey15', 'grey30']  : ['grey70', 'grey85']
+" "   
+" "     exe 'hi IndentGuidesEven guibg=' . l:gui_colors[0] . ' ctermbg=' . l:cterm_colors[0]
+" "     exe 'hi IndentGuidesOdd  guibg=' . l:gui_colors[1] . ' ctermbg=' . l:cterm_colors[1]
+" "   endfunction
+" " endfunction
+" " 
+" " " register hook to override basic_highlight_colors after plugins are loaded
+" " autocmd VimEnter * :call OverrideIndentGuidesFunction()
 
 
 """"""""""""""""""""""""""""""""""""""
 " double check the rest of this file "
 """"""""""""""""""""""""""""""""""""""
-" if has("autocmd")
-"  " Enabled file type detection
-"  " Use the default filetype settings. If you also want to load indent files
-"  " to automatically do language-dependent indenting add 'indent' as well.
-"  filetype plugin indent on
-" endif " has ("autocmd")
 
-" map <c-w><c-t> :NERDTreeToggle<cr>
-" map <S-Left> <C-W>h
-" map <S-Right> <C-W>l
-" map <S-Up> <C-W>k
-" map <S-Down> <C-W>j
 
 " " ?
 " let g:bufExplorerWidth = 50
