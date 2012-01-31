@@ -26,6 +26,14 @@ set modelines=0
 " we don't want true vi compatibility
 set nocompatible
 
+" enable powerline's fancy symbols
+let g:Powerline_symbols = 'fancy'
+" and have it always show
+set laststatus=2
+
+" tell indent guides plugin not to compute indent colors
+let g:indent_guides_auto_colors = 1
+
 call pathogen#infect()
 call pathogen#helptags()
 
@@ -54,6 +62,8 @@ set backspace=indent,eol,start
 set viminfo=%,'50,n~/dotfiles/vim/viminfo
 " remember 50 lines of history
 set history=50
+" remember last edit pos
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 " enable highlighting of search term
 set hlsearch
@@ -87,7 +97,6 @@ set autowrite
 runtime! ftplugin/man.vim
 nnoremap <silent> <F2> :normal \K<CR>
 
-
 " Make p in Visual mode replace the selected text with the "" register.
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
@@ -104,16 +113,16 @@ set background=dark
 set cinoptions=>1s 
 
 
-set statusline =
-set statusline+=%< " truncate starts here
-set statusline+=%1*%f%* " filename with custom color
-set statusline+=%f " filename
-set statusline+= " "
-set statusline+=%h " help buffer flag
-set statusline+=%m " modified flag
-set statusline+=%r " read only flag
-set statusline+=%#warningmsg#%{SyntasticStatuslineFlag()}%* " syntax warnings
-set statusline+=%=%-14.(%l,%c%V%)\ %P
+"set statusline =
+"set statusline+=%< " truncate starts here
+"set statusline+=%1*%f%* " filename with custom color
+"set statusline+=%f " filename
+"set statusline+= " "
+"set statusline+=%h " help buffer flag
+"set statusline+=%m " modified flag
+"set statusline+=%r " read only flag
+"set statusline+=%#warningmsg#%{SyntasticStatuslineFlag()}%* " syntax warnings
+"set statusline+=%=%-14.(%l,%c%V%)\ %P
 
 " function to be called with autocmd to enable F5 = :make
 fun! F5Wrapper()
@@ -142,7 +151,17 @@ nnoremap g* g*zz
 nnoremap g# g#z
 
 "set t_Co=256  " sometimes helps on term's without correct $TERM set
-colorscheme evening
+colorscheme compot
+
+" set default background back to NONE (to allow transparent bg)
+" TODO: find out why the indent guides + trans bg stuff doesn't work with CSApprox
+"hi Normal ctermbg=NONE
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#121212 ctermbg=233
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#1c1c1c ctermbg=234
+"autocmd VimEnter * :IndentGuidesEnable
+
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>="
 
 """"""""""""""""""""""""""""""""""""""
 " double check the rest of this file "
