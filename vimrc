@@ -21,7 +21,7 @@ set mouse=a
 "   %:    save/restore buffer list (reload it when vim is invoked w/o params)
 "   '50:  remember marks for 50 files
 "   \"50: (also <50) would limit register buffers to 50 lines (unset:unlimited)
-set viminfo=%,'50,n~/dotfiles/vim/viminfo
+set viminfo=%,'50,n~/.vim/viminfo
 " remember 50 lines of history
 set history=50
 " remember last edit pos
@@ -177,7 +177,7 @@ set showmatch
 set cursorcolumn
 set cursorline
 " highlight columns 80 & 120
-set colorcolumn=80,120
+"set colorcolumn=80,120
 
 " Resize splits when the window is resized
 au VimResized * exe "normal! \<c-w>="
