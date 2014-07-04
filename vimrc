@@ -94,6 +94,13 @@ nnoremap <S-Right> <C-W>l
 nnoremap <S-Up> \<C-W>k
 nnoremap <S-Down> \<C-W>j
 
+" Shift-Tab to unindent
+nnoremap <Tab> >>
+nnoremap <S-Tab> <<
+inoremap <S-Tab> <C-D>
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " "                         INDENTATION OPTIONS                            " "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -150,7 +157,8 @@ nnoremap g# g#z
 "     fi
 "for gnome-terminal etc, just override $TERM (see ./bashrc_vim.sh)
 "set t_Co=256  " sometimes helps on term's without correct $TERM set
-colorscheme lucius
+"colorscheme lucius
+colorscheme evening
 
 " enable syntax highlighting by default
 syntax on
